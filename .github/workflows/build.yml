@@ -28,8 +28,8 @@ jobs:
       
       matrix:
         mode:
-          - debug
-          - release
+          - release-client
+          - release-rcc
 
     steps:
       - uses: actions/checkout@v4
