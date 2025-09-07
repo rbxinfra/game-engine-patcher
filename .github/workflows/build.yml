@@ -1,0 +1,51 @@
+name: Build
+
+on:
+  push:
+    paths:
+      - "src/**"
+      - ".github/workflows/build.yml"
+      - "xmake.lua"
+
+jobs:
+  cancel-old-build:
+    name: Cancel previous builds
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
+
+  build-linux:
+    runs-on: windows-latest
+    needs: cancel-old-build
+    timeout-minutes: 15
+
+    strategy:
+      fail-fast: true
+      
+      matrix:
+        mode:
+          - debug
+          - release
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up GCC
+        uses: egor-tensin/setup-gcc@v1
+        with:
+          version: latest
+          platform: x64
+
+      - name: Setup xmake
+        uses: xmake-io/github-action-setup-xmake@v1
+        with:
+          xmake-version: latest
+
+      - name: Build
+        run: |
+          xmake config --plat=linux --mode=${{ matrix.mode }} --verbose --yes
+          xmake build --verbose --yes --all

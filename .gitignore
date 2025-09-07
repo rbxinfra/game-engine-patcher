@@ -1,0 +1,22 @@
+# Xmake cache
+.xmake/
+build/
+
+# clangd cache
+.cache/
+
+# MacOS Cache
+.DS_Store
+
+
+.vscode/
+
+# CMake/Ninja
+CMakeCache.txt
+cmake_install.cmake
+CMakeFiles/
+install_manifest.txt
+
+.ninja_deps
+.ninja_log
+build.ninja
