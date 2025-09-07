@@ -50,5 +50,5 @@ jobs:
         env:
           VCPKG_ROOT: ${{ github.workspace }}/.vcpkg
         run: |
-          xmake config --plat=linux --mode=${{ matrix.mode }} --verbose --yes
+          xmake config --mode=${{ matrix.mode }} --verbose --yes
           xmake build --verbose --yes --all
