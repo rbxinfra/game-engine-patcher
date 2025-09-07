@@ -45,7 +45,17 @@ jobs:
         with:
           xmake-version: latest
 
+
+      - name: Installing vcpkg
+        run: |
+          git clone https://github.com/Microsoft/vcpkg.git .vcpkg
+          cd .vcpkg
+          .\bootstrap-vcpkg.bat
+          cd ..
+
       - name: Build
+        env:
+          VCPKG_ROOT: ${{ github.workspace }}/.vcpkg
         run: |
           xmake config --plat=linux --mode=${{ matrix.mode }} --verbose --yes
           xmake build --verbose --yes --all
